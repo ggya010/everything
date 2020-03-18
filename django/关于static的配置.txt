@@ -1,0 +1,6 @@
+当 debug=True 时, 就是本地的开发模式, 这个时候, 访问压力很小, django 能处理, 所以直接 python manage.py runserver 就会加载静态文件, 即 django 为了方便, 帮你处理了静态文件问题
+但是当 debug=False 时, django 认为这是生产环境了, 这个时候, 因为 django 处理静态文件能力时较差的, 这种情况一般(99%)会使用 nginx 处理今天文件, 所以 django 就不再处理静态文件了
+这个时候, 你再 runserver, 这个 server 只会处理那些 views 中的请求, 静态文件不再处理, 所以网站能用, 但是 css 没有加载
+PS: 有时候你会发现, debug=False, 好像有 css. 这是因为如果你先 debug=True, 刷新页面(此时加载了 css), 再 debug=False, 刷新页面会发现还有 css, 这是因为页面有缓存, 还没有及时清理. 使用清缓存刷新(win 下时 ctrl+F5, mac 下是 cmd+shift+R), 就会发现 css 没了
+如果想 debug=False 仍能有 css, 最简单就是
+python manage.py runserver --insecure
